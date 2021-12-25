@@ -24,7 +24,9 @@ use std::process::Command;
 use std::{self, io::Write, process::Stdio};
 
 pub fn is_available() -> Result<bool, BackendError> {
-    let output = Command::new("cryfs").arg("--version").output()?;
+    let output = Command::new("cryfs")
+        .arg("--version")
+        .output()?;
 
     Ok(output.status.success())
 }
