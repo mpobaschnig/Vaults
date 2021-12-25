@@ -11,7 +11,7 @@
         "--socket=fallback-x11",
         "--socket=wayland",
         "--share=ipc",
-        "--device=dri",
+        "--device=all",
         "--talk-name=org.freedesktop.Flatpak",
         "--filesystem=host",
         "--env=RUST_LOG=vaults=debug",
@@ -49,15 +49,28 @@
             ]
         },
         {
-            "name": "cryfs",
+            "name": "gocryptfs",
             "buildsystem": "simple",
             "build-commands": [
-                "install cryfs-wrapper.sh /app/bin/cryfs"
+                "install gocryptfs /app/bin/gocryptfs"
             ],
             "sources": [
                 {
                     "type": "file",
-                    "path": "build-aux/cryfs-wrapper.sh"
+                    "path": "build-aux/gocryptfs"
+                }
+            ]
+        },
+        {
+            "name": "cryfs",
+            "buildsystem": "simple",
+            "build-commands": [
+                "install cryfs /app/bin/cryfs"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+                    "path": "build-aux/cryfs"
                 }
             ]
         },
@@ -65,25 +78,12 @@
             "name": "cryfs-unmount",
             "buildsystem": "simple",
             "build-commands": [
-                "install cryfs-unmount-wrapper.sh /app/bin/cryfs-unmount"
+                "install cryfs-unmount /app/bin/cryfs-unmount"
             ],
             "sources": [
                 {
                     "type": "file",
-                    "path": "build-aux/cryfs-unmount-wrapper.sh"
-                }
-            ]
-        },
-            {
-            "name": "gocryptfs",
-            "buildsystem": "simple",
-            "build-commands": [
-                "install gocryptfs-wrapper.sh /app/bin/gocryptfs"
-            ],
-            "sources": [
-                {
-                    "type": "file",
-                    "path": "build-aux/gocryptfs-wrapper.sh"
+                    "path": "build-aux/cryfs-unmount"
                 }
             ]
         },
