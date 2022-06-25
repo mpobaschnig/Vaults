@@ -24,7 +24,9 @@ use std::process::Command;
 use std::{io::Write, process::Stdio};
 
 pub fn is_available() -> Result<bool, BackendError> {
-    let output = Command::new("gocryptfs").arg("--version").output()?;
+    let output = Command::new("gocryptfs")
+        .arg("--version")
+        .output()?;
 
     Ok(output.status.success())
 }
@@ -63,10 +65,10 @@ pub fn init(vault_config: &VaultConfig, password: String) -> Result<(), BackendE
 
 pub fn open(vault_config: &VaultConfig, password: String) -> Result<(), BackendError> {
     let mut child = Command::new("gocryptfs")
+        .env("DEBUG", "1")
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
-        .arg("-q")
-        .arg("--")
+        .arg("-fusedebug")
         .arg(&vault_config.encrypted_data_directory)
         .arg(&vault_config.mount_directory)
         .spawn()?;
@@ -86,6 +88,8 @@ pub fn open(vault_config: &VaultConfig, password: String) -> Result<(), BackendE
     } else {
         std::io::stdout().write_all(&output.stdout).unwrap();
         std::io::stderr().write_all(&output.stderr).unwrap();
+
+        println!("Err code: {:?}", output.status.code());
 
         Err(status_to_err(output.status.code()))
     }
